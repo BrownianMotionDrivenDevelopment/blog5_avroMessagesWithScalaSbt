@@ -1,0 +1,25 @@
+{
+    "type": "record",
+    "name": "Greeting",
+    "namespace": "com.brownianmotiondrivendev.avromessages",
+    "fields": [
+        {
+            "name": "greetingEmotion",
+            "type": {
+                "name": "GreetingEmotion",
+                "type": "enum",
+                "symbols": [
+                    "FEAR",
+                    "ANGER",
+                    "SADNESS",
+                    "JOY",
+                    "DISGUST",
+                    "TRUST",
+                    "ANTICIPATION"
+                ]
+            }
+        },
+        {"name": "greetingDetail", "type": "string"}
+    ]
+}
+
