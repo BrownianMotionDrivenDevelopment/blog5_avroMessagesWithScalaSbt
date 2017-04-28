@@ -26,21 +26,19 @@ class GreetingTest extends FunSuite {
     GreetingAvroFile.delete()
 
     // serialize
-    val speculativeScreenplayDatumWriter: DatumWriter[Greeting] = new SpecificDatumWriter[Greeting](sadGreeting.getSchema)
+    val speculativeScreenplayDatumWriter: DatumWriter[Greeting] = new SpecificDatumWriter[Greeting](Greeting.SCHEMA$)
     val dataFileWriter: DataFileWriter[Greeting] = new DataFileWriter[Greeting](speculativeScreenplayDatumWriter)
-    dataFileWriter.create(sadGreeting.getSchema(), GreetingAvroFile)
+    dataFileWriter.create(Greeting.SCHEMA$, GreetingAvroFile)
     dataFileWriter.append(sadGreeting)
     dataFileWriter.close()
 
     // Deserialize from disk
-    val speculativeScreenplayDatumReader: DatumReader[Greeting] = new SpecificDatumReader[Greeting](sadGreeting.getSchema)
+    val speculativeScreenplayDatumReader: DatumReader[Greeting] = new SpecificDatumReader[Greeting](Greeting.SCHEMA$)
     val dataFileReader: DataFileReader[Greeting] =
       new DataFileReader[Greeting](new File(GreetingFileName), speculativeScreenplayDatumReader)
 
-    var deserialisedGreeting: Greeting = null
+    var deserialisedGreeting: Greeting = null // a var ... OMG, ahhhhhhh - avert your eyes!!!!
     while (dataFileReader.hasNext) {
-      // Reuse user object by passing it to next(). This saves us from  allocating and
-      // garbage collecting many objects for files with many items.
       deserialisedGreeting = dataFileReader.next(deserialisedGreeting)
       println("okay: " + deserialisedGreeting + "; dokies")
     }
